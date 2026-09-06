@@ -1,0 +1,13 @@
+# Carpetas de compilación de .NET
+bin/
+obj/
+
+# Carpeta de configuración local de Visual Studio (NO se comparte)
+.vs/
+
+# Archivos de usuario de Visual Studio (config local, no del proyecto)
+*.user
+
+# Otros archivos generados
+*.suo
+*.cache
