@@ -23,7 +23,7 @@ La API queda disponible en `http://localhost:5000`, con Swagger en `http://local
 | `Agregar` | ⬜ Pendiente (0%) |
 | `GetURLsSEO` | ⬜ Pendiente (0%) |
 | `GetUrlSeoPorId` | ⬜ Pendiente (0%) |
-| `ConsultaNiveles` | ⬜ Pendiente (0%) |
+| `ConsultaNiveles` | 🟩 Completado (100%) |
 
 ## Diagrama de clases
 
