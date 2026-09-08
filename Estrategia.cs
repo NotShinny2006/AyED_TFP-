@@ -30,7 +30,45 @@ namespace tpfinal
 
         public List<List<string>> ConsultaNiveles(ArbolGeneral<ItemCat> arbol)
 		{
-            return [["Implementar"]];
+            List<List<string>> resultado = new List<List<string>>();
+        if (arbol == null) return resultado;
+
+        Cola<ArbolGeneral<ItemCat>> cola = new Cola<ArbolGeneral<ItemCat>>(); //Utilizamos la clase Cola para un eficiente acceso por nivel o BFS
+        cola.encolar(arbol);
+        cola.encolar(null); // Elemento que demarca el fin de nivel
+
+        List<string> nivelActual = new List<string>();
+
+        while (!cola.esVacia())
+        {
+            ArbolGeneral<ItemCat> actual = cola.desencolar();
+
+            if (actual == null)
+            {
+                resultado.Add(nivelActual); // Se agrega la lista interna con los nodos del mismo nivel a la lista general
+                nivelActual = new List<string>(); // Se crea una nueva lista interna con el nuevo nivel
+
+                if (!cola.esVacia())
+                {
+                    cola.encolar(null);// Si todavia existen nodos, se encarga de demarcar y/o cerrar el próximo nivel entrante para no generar bucles infinitos con el while
+                }
+            }
+            else
+            {
+                if (actual.getDatoRaiz() != null)
+                {
+                    nivelActual.Add(actual.getDatoRaiz().Nombre);
+                }
+
+                foreach (var hijo in actual.getHijos())
+                {
+                    cola.encolar(hijo);
+                }
+            }
+        }
+
+        return resultado;
+    }
         }
 
         //Devuelve todos los productos del catalogo, no especifica absolutamente nada, manda todo de una//
