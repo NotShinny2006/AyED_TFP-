@@ -69,7 +69,6 @@ namespace tpfinal
 
         return resultado;
     }
-        }
 
         //Devuelve todos los productos del catalogo, no especifica absolutamente nada, manda todo de una//
         public List<ItemCat> Todos(ArbolGeneral<ItemCat> arbol)
