@@ -11,9 +11,7 @@ namespace tpfinal
 	public class Estrategia
 	{
 		
-        //Todos los que tengan un return con "implementar" pueden ser los que quieras empezar a hacer
-        //Veo si te llego a hacer un UML para cuando veas el github o el README... Si te lo imaginas de otra forma
-        //Podes modificarlo, no hay drama alguna
+        //Te dejo para vos los getURLs, entiendo que se hacen medio que por igual o bastante parecido asi que nada, preferi que te explayes con esos dos asjsaj
 		public string GetUrlSeoPorId(ArbolGeneral<ItemCat> arbol, int id)
         {
             return "Implementar";
@@ -93,29 +91,66 @@ namespace tpfinal
         }
 
         public void Agregar(ArbolGeneral<ItemCat> arbol, ItemCat dato, string rutaAlPadre)
-		{
-            return [["implementar"]];
+        {
+            string[] categorias = rutaAlPadre.Split("/");
+            ArbolGeneral<ItemCat> actual = arbol;
+
+            foreach (var nombreCategoria in categorias)
+            {
+                ArbolGeneral<ItemCat> hijoExistente = BuscarHijoPorNombre(actual, nombreCategoria);
+
+                if (hijoExistente == null)
+                {
+                    ItemCat nuevaCategoria = new ItemCat(nombreCategoria, TipoElemento.Categoria);
+                    hijoExistente = new ArbolGeneral<ItemCat>(nuevaCategoria);
+                    actual.agregarHijo(hijoExistente);
+                }
+
+                actual = hijoExistente;
+            }
+
+            if (BuscarHijoPorNombre(actual, dato.Nombre) == null)
+            {
+                actual.agregarHijo(new ArbolGeneral<ItemCat>(dato));
+            }
+        }
+
+        //metodo para buscar hijo por nombre
+        private ArbolGeneral<ItemCat> BuscarHijoPorNombre(ArbolGeneral<ItemCat> nodo, string nombre)
+        {
+            foreach (var hijo in nodo.getHijos())
+            {
+                if (hijo.getDatoRaiz().Nombre == nombre)
+                {
+                    return hijo;
+                }
+            }
+
+            return null;
         }
 
         //buscar(): Basicamente, a diferencia de todos() este busca filtrado por categorias y productos.//
-        public List<ItemCat> Buscar(ArbolGeneral<ItemCat> arbol, string elementoABuscar)
+        public List<ItemCat> Buscar(ArbolGeneral<ItemCat> arbol, string elementoABuscar, TipoElemento? filtroTipo = null)
 		{
 			List<ItemCat> resultado = new List<ItemCat>();
-            RecolectarCoincidencias(arbol, elementoABuscar, resultado);
+            RecolectarCoincidencias(arbol, elementoABuscar, filtroTipo, resultado);
             return resultado;
 		}
 
-        //Este es su metodo privado para que funcione correctamente//
-        private void RecolectarCoincidencias(ArbolGeneral<ItemCat> nodo, string texto, List<ItemCat> resultado)
+        //ACTUALIZACIÓN: Ahora tiene un filtro extra de tipos.//
+        private void RecolectarCoincidencias(ArbolGeneral<ItemCat> nodo, string texto, TipoElemento? filtroTipo, List<ItemCat> resultado)
         {
-            if (nodo.getDatoRaiz().Nombre.Contains(texto, StringComparison.OrdinalIgnoreCase))
+            bool CoincideNombre = nodo.getDatoRaiz().Nombre.Contains(texto, StringComparison.OrdinalIgnoreCase);
+            bool coincideTipo = filtroTipo == null || nodo.getDatoRaiz().Tipo == filtroTipo;
+
+            if (CoincideNombre && coincideTipo)
             {
                 resultado.Add(nodo.getDatoRaiz());
             }
 
             foreach (var hijo in nodo.getHijos())
             {
-                RecolectarCoincidencias(hijo, texto, resultado);
+                RecolectarCoincidencias(hijo, texto, filtroTipo, resultado);
             }
         }
             

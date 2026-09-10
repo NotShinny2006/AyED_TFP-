@@ -15,7 +15,7 @@ app.UseSwaggerUI();
 
 var estrategia = new Estrategia();
 
-// 1. Crear la raíz
+// 1. Crear la raï¿½z
 ArbolGeneral<ItemCat> arbol = new ArbolGeneral<ItemCat>(
     new ItemCat("Catalogo Global", TipoElemento.Categoria)
 );

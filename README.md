@@ -18,9 +18,9 @@ La API queda disponible en `http://localhost:5000`, con Swagger en `http://local
 
 | Método (`Estrategia.cs`) | Estado |
 |---|---|
-| `Todos` | ⬜ Pendiente (50%) |
-| `Buscar` | ⬜ Pendiente (50%) |
-| `Agregar` | ⬜ Pendiente (0%) |
+| `Todos` | 🟩 Completado (100%) |
+| `Buscar` | 🟩 Completado (100%) |
+| `Agregar` | 🟩 Completado (100%) |
 | `GetURLsSEO` | ⬜ Pendiente (0%) |
 | `GetUrlSeoPorId` | ⬜ Pendiente (0%) |
 | `ConsultaNiveles` | 🟩 Completado (100%) |
