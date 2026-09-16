@@ -21,8 +21,8 @@ La API queda disponible en `http://localhost:5000`, con Swagger en `http://local
 | `Todos` | 🟩 Completado (100%) |
 | `Buscar` | 🟩 Completado (100%) |
 | `Agregar` | 🟩 Completado (100%) |
-| `GetURLsSEO` | ⬜ Pendiente (0%) |
-| `GetUrlSeoPorId` | ⬜ Pendiente (0%) |
+| `GetURLsSEO` | 🟩 Completado (100%) |
+| `GetUrlSeoPorId` | 🟩 Completado (100%) |
 | `ConsultaNiveles` | 🟩 Completado (100%) |
 
 ## Diagrama de clases
@@ -61,7 +61,9 @@ classDiagram
         +Buscar(arbol, texto) List
         +Todos(arbol) List
         +GetURLsSEO(arbol) List
+        -GetURLsSEORecursivo(nodo, rutaActual, urls) void
         +GetUrlSeoPorId(arbol, id) string
+        -GetUrlSEOPorIDRecursivo(nodo, id, rutaActual) string
         +ConsultaNiveles(arbol) List
     }
     ArbolGeneral "1" o-- "0..*" ArbolGeneral : hijos
