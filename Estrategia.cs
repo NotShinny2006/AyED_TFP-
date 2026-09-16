@@ -11,20 +11,80 @@ namespace tpfinal
 	public class Estrategia
 	{
 		
-        //Te dejo para vos los getURLs, entiendo que se hacen medio que por igual o bastante parecido asi que nada, preferi que te explayes con esos dos asjsaj
+        //Metodo para obtener la url de un elemento por su id
 		public string GetUrlSeoPorId(ArbolGeneral<ItemCat> arbol, int id)
         {
-            return "Implementar";
+            return GetUrlSeoPorIdRecursivo(arbol, id, ""); //se unicializa una string vacia ya que es la primera llamada recursiva para obtener la ruta del elemento
         }
-        
+        private static string GetUrlSeoPorIdRecursivo(ArbolGeneral<ItemCat> nodo, int id, string rutaActual) //metodo recursivo privado
+    	{	if (nodo == null) return null;
+			string nombreActual = ""; //nombre del nodo que se recorre actualmente
+			string nuevaRuta = "";
+			ItemCat dato = nodo.getDatoRaiz();
+			if (dato != null)
+			{	
+				nombreActual = dato.Nombre.Replace(" ", ""); //elimino los espacios del nombre del dato para agregarlo a la url
+			}
+			if (string.IsNullOrEmpty(rutaActual))
+			{
+    			nuevaRuta = nombreActual;
+			}
+			else
+			{
+    			nuevaRuta = rutaActual + "/" + nombreActual;
+			}
+			if (dato != null && dato.Id == id) //si el id del dato coincide con el id del elemento a buscar devuelve la ruta (condicion de corte).
+			{
+				return nuevaRuta;
+			}
+			foreach (var hijo in nodo.getHijos()) //si tiene hijos, realiza una pila de llamadas recursivas (DFS o busqueda en profundidad).
+        		{
+            	string resultado = GetUrlSeoPorIdRecursivo(hijo, id, nuevaRuta);
+            	if (resultado != null)
+            	{
+                return resultado;
+            	}
+        		}
+        	return null;
+    		}
 
-        public List<string> GetURLsSEO(ArbolGeneral<ItemCat> arbol)
+		//Obtener todas las URLs amigables recorriendo desde un arbol (pasado como parametro) hasta cada hoja
+        public List<string> GetURLsSEO(ArbolGeneral<ItemCat> arbol) 
 		{
-			return ["Implementar"];
+			List<string> urls = new List<string>();
+        	if (arbol == null) return urls;
+        	GetURLsSEORecursivo(arbol, "", urls);
+        	return urls;
 		}
-        
+        private static void GetURLsSEORecursivo(ArbolGeneral<ItemCat> nodo, string rutaActual, List<string> urls) //metodo recursivo privado
+    {
+        string nombreActual = "";
+        if (nodo.getDatoRaiz() != null)
+        {
+            nombreActual = nodo.getDatoRaiz().Nombre.Replace(" ", "");
+        }
+        string nuevaRuta = "";
+        if (string.IsNullOrEmpty(rutaActual))
+        {
+            nuevaRuta = nombreActual;
+        }
+        else
+        {
+            nuevaRuta = rutaActual + "/" + nombreActual;
+        }
 
-              
+        if (nodo.esHoja())//si no tiene hijos (condicion de corte), se agrega a la lista de urls
+        {
+            urls.Add(nuevaRuta); 
+        }
+        else //si tiene hijos, se obtienen los nodos hijos para ser implementados recursivamente hasta cumplir la condicion de corte, implementado así una busqueda en profundidad o DFS
+        {
+            foreach (var hijo in nodo.getHijos())
+            {
+                GetURLsSEORecursivo(hijo, nuevaRuta, urls);
+            }
+        }
+    }
 
         public List<List<string>> ConsultaNiveles(ArbolGeneral<ItemCat> arbol)
 		{
