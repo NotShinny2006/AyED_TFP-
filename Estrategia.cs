@@ -11,19 +11,18 @@ namespace tpfinal
 	public class Estrategia
 	{
 		
-        //Metodo para obtener la url de un elemento por su id
 		public string GetUrlSeoPorId(ArbolGeneral<ItemCat> arbol, int id)
         {
-            return GetUrlSeoPorIdRecursivo(arbol, id, ""); //se unicializa una string vacia ya que es la primera llamada recursiva para obtener la ruta del elemento
+            return GetUrlSeoPorIdRecursivo(arbol, id, ""); 
         }
-        private static string GetUrlSeoPorIdRecursivo(ArbolGeneral<ItemCat> nodo, int id, string rutaActual) //metodo recursivo privado
+        private static string GetUrlSeoPorIdRecursivo(ArbolGeneral<ItemCat> nodo, int id, string rutaActual) 
     	{	if (nodo == null) return null;
-			string nombreActual = ""; //nombre del nodo que se recorre actualmente
+			string nombreActual = ""; 
 			string nuevaRuta = "";
 			ItemCat dato = nodo.getDatoRaiz();
 			if (dato != null)
 			{	
-				nombreActual = dato.Nombre.Replace(" ", ""); //elimino los espacios del nombre del dato para agregarlo a la url
+				nombreActual = dato.Nombre.Replace(" ", ""); 
 			}
 			if (string.IsNullOrEmpty(rutaActual))
 			{
@@ -33,11 +32,11 @@ namespace tpfinal
 			{
     			nuevaRuta = rutaActual + "/" + nombreActual;
 			}
-			if (dato != null && dato.Id == id) //si el id del dato coincide con el id del elemento a buscar devuelve la ruta (condicion de corte).
+			if (dato != null && dato.Id == id) 
 			{
 				return nuevaRuta;
 			}
-			foreach (var hijo in nodo.getHijos()) //si tiene hijos, realiza una pila de llamadas recursivas (DFS o busqueda en profundidad).
+			foreach (var hijo in nodo.getHijos()) 
         		{
             	string resultado = GetUrlSeoPorIdRecursivo(hijo, id, nuevaRuta);
             	if (resultado != null)
@@ -48,7 +47,6 @@ namespace tpfinal
         	return null;
     		}
 
-		//Obtener todas las URLs amigables recorriendo desde un arbol (pasado como parametro) hasta cada hoja
         public List<string> GetURLsSEO(ArbolGeneral<ItemCat> arbol) 
 		{
 			List<string> urls = new List<string>();
@@ -56,7 +54,7 @@ namespace tpfinal
         	GetURLsSEORecursivo(arbol, "", urls);
         	return urls;
 		}
-        private static void GetURLsSEORecursivo(ArbolGeneral<ItemCat> nodo, string rutaActual, List<string> urls) //metodo recursivo privado
+        private static void GetURLsSEORecursivo(ArbolGeneral<ItemCat> nodo, string rutaActual, List<string> urls) 
     {
         string nombreActual = "";
         if (nodo.getDatoRaiz() != null)
@@ -73,11 +71,11 @@ namespace tpfinal
             nuevaRuta = rutaActual + "/" + nombreActual;
         }
 
-        if (nodo.esHoja())//si no tiene hijos (condicion de corte), se agrega a la lista de urls
+        if (nodo.esHoja())
         {
             urls.Add(nuevaRuta); 
         }
-        else //si tiene hijos, se obtienen los nodos hijos para ser implementados recursivamente hasta cumplir la condicion de corte, implementado así una busqueda en profundidad o DFS
+        else 
         {
             foreach (var hijo in nodo.getHijos())
             {
@@ -91,9 +89,9 @@ namespace tpfinal
             List<List<string>> resultado = new List<List<string>>();
         if (arbol == null) return resultado;
 
-        Cola<ArbolGeneral<ItemCat>> cola = new Cola<ArbolGeneral<ItemCat>>(); //Utilizamos la clase Cola para un eficiente acceso por nivel o BFS
+        Cola<ArbolGeneral<ItemCat>> cola = new Cola<ArbolGeneral<ItemCat>>(); 
         cola.encolar(arbol);
-        cola.encolar(null); // Elemento que demarca el fin de nivel
+        cola.encolar(null); 
 
         List<string> nivelActual = new List<string>();
 
@@ -103,12 +101,12 @@ namespace tpfinal
 
             if (actual == null)
             {
-                resultado.Add(nivelActual); // Se agrega la lista interna con los nodos del mismo nivel a la lista general
-                nivelActual = new List<string>(); // Se crea una nueva lista interna con el nuevo nivel
+                resultado.Add(nivelActual); 
+                nivelActual = new List<string>(); 
 
                 if (!cola.esVacia())
                 {
-                    cola.encolar(null);// Si todavia existen nodos, se encarga de demarcar y/o cerrar el próximo nivel entrante para no generar bucles infinitos con el while
+                    cola.encolar(null);
                 }
             }
             else
@@ -128,14 +126,13 @@ namespace tpfinal
         return resultado;
     }
 
-        //Devuelve todos los productos del catalogo, no especifica absolutamente nada, manda todo de una//
         public List<ItemCat> Todos(ArbolGeneral<ItemCat> arbol)
         {
             List<ItemCat> resultado = new List<ItemCat>();
             RecolectarProductos(arbol, resultado);
             return resultado;
         }
-        //Metodo para recolectar todos los productos, de paso los aloja momentaneamente asi el return funciona//
+
         private void RecolectarProductos(ArbolGeneral<ItemCat> nodo, List<ItemCat> resultado)
         {
             if (nodo.getDatoRaiz().Tipo == TipoElemento.Producto)
@@ -175,7 +172,6 @@ namespace tpfinal
             }
         }
 
-        //metodo para buscar hijo por nombre
         private ArbolGeneral<ItemCat> BuscarHijoPorNombre(ArbolGeneral<ItemCat> nodo, string nombre)
         {
             foreach (var hijo in nodo.getHijos())
@@ -189,7 +185,6 @@ namespace tpfinal
             return null;
         }
 
-        //buscar(): Basicamente, a diferencia de todos() este busca filtrado por categorias y productos.//
         public List<ItemCat> Buscar(ArbolGeneral<ItemCat> arbol, string elementoABuscar, TipoElemento? filtroTipo = null)
 		{
 			List<ItemCat> resultado = new List<ItemCat>();
@@ -197,7 +192,6 @@ namespace tpfinal
             return resultado;
 		}
 
-        //ACTUALIZACIÓN: Ahora tiene un filtro extra de tipos.//
         private void RecolectarCoincidencias(ArbolGeneral<ItemCat> nodo, string texto, TipoElemento? filtroTipo, List<ItemCat> resultado)
         {
             bool CoincideNombre = nodo.getDatoRaiz().Nombre.Contains(texto, StringComparison.OrdinalIgnoreCase);

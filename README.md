@@ -1,18 +1,11 @@
 # API Catálogo — TFP Algoritmos y Estructuras de Datos
 
 API REST que administra un catálogo de e-commerce modelado como **Árbol General**.
-Trabajo Final Práctico — Primera entrega: **14/9, probablemente el 17/9**.
+Trabajo Final Práctico.
 
 ## Integrantes
 - Santiago Pais
 - Berenguera Gonzalo
-
-## Cómo correr el proyecto
-```bash
-cd ApiCatalogo
-dotnet run
-```
-La API queda disponible en `http://localhost:5000`, con Swagger en `http://localhost:5000/swagger` (te recomiendo este, ayuda mucho a saber si algo funciona).
 
 ## Estado de avance
 
@@ -93,10 +86,3 @@ flowchart TD
     D -- No --> I[Crear nodo con 'dato']
     I --> J[agregarHijo a 'actual']
 ```
-
-## Estructura del proyecto
-- `ArbolGeneral.cs`: estructura de árbol general genérica (dada por la cátedra).
-- `ItemCat.cs`: dato que se almacena en cada nodo (categoría o producto).
-- `Cola.cs`: cola FIFO (dada por la cátedra).
-- `Estrategia.cs`: los 6 métodos pedidos por el enunciado.
-- `Program.cs`: expone los endpoints REST (dado por la cátedra, no se modifica).
